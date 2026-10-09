@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#05080d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Point your phone at your hand and see the bones. A toy X-ray camera that runs in the browser.">
+  <title>X-Ray Cam</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <!-- Camera frames feed the WebGL picture; the video itself stays invisible. -->
+  <video id="video" playsinline muted autoplay></video>
+  <canvas id="xray" aria-hidden="true"></canvas>
+  <canvas id="bones" aria-hidden="true"></canvas>
+
+  <div id="hud">
+    <header class="top">
+      <span class="tag">X-RAY CAM</span>
+      <span class="toy">TOY · NOT A MEDICAL IMAGE</span>
+      <span id="fps" class="fps"></span>
+    </header>
+    <p id="hint" class="hint" role="status"></p>
+    <nav class="bar">
+      <button type="button" id="flip" class="round" aria-label="Switch camera">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 13.5a3 3 0 0 0 5.6 1.4M15 12.5a3 3 0 0 0-5.6-1.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M14 16.2l.8-1.5 1.5.6M10 9.8l-.8 1.5-1.5-.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button type="button" id="shot" class="shutter" aria-label="Take an X-ray"><span></span></button>
+      <button type="button" id="info" class="round" aria-label="About X-Ray Cam">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v6M12 7.5v.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      </button>
+    </nav>
+  </div>
+
+  <section id="start" class="overlay start">
+    <div class="card">
+      <img class="logo" src="icon.svg" alt="" width="96" height="96">
+      <h1>X-Ray Cam</h1>
+      <p class="lead">Point your phone's camera at your hand and see the bones move.</p>
+      <button type="button" id="go" class="primary">Start X-ray</button>
+      <p id="status" class="status" role="status"></p>
+      <p class="small">Just for fun. It's a toy, not a medical device: the bones are drawn by the app.<br>The video stays on your phone and is never uploaded.</p>
+    </div>
+  </section>
+
+  <section id="about" class="overlay" hidden>
+    <div class="card" role="dialog" aria-modal="true" aria-labelledby="about-title">
+      <h2 id="about-title">How it works</h2>
+      <p>The camera picture is turned into a negative with an X-ray glow. When your hand is in view, hand tracking finds its 21 joints and the app draws a skeleton that follows them.</p>
+      <p>The bones are an illustration, not your real bones. Please don't use this for anything medical.</p>
+      <p>Everything runs on your phone. Nothing is uploaded or stored, except the pictures you choose to save.</p>
+      <p class="small">Hand tracking: Google MediaPipe (Apache 2.0).</p>
+      <button type="button" id="about-close" class="primary">Got it</button>
+    </div>
+  </section>
+
+  <section id="photo" class="overlay" hidden>
+    <div class="card photo-card" role="dialog" aria-modal="true" aria-label="Your X-ray">
+      <img id="photo-img" alt="Your X-ray picture">
+      <div class="row">
+        <button type="button" id="photo-close" class="secondary">Close</button>
+        <button type="button" id="photo-save" class="primary">Save or share</button>
+      </div>
+    </div>
+  </section>
+  <noscript>X-Ray Cam needs JavaScript.</noscript>
+</body>
+</html>
